@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veloudos Assistant - Media & PR</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .business-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 15px;
+            background-color: #e0e0e0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .company {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .contact-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .save-contact-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .save-contact-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .save-contact-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .chat-section {
+            padding: 20px;
+        }
+
+        .chat-container {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 85%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .bot .message-content {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-top-left-radius: 5px;
+        }
+
+        .user .message-content {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-top-right-radius: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        #user-input:focus {
+            border-color: #1e3c72;
+        }
+
+        #send-btn {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        #send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 10px 8px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .quick-btn:hover {
+            background: #f0f0f0;
+            border-color: #1e3c72;
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 10px 15px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: inline-block;
+        }
+
+        .typing-dots::after {
+            content: '';
+            animation: typing 1.5s infinite;
+        }
+
+        @keyframes typing {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+
+        .info-section {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .contact-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .contact-item i {
+            color: #1e3c72;
+            width: 16px;
+        }
+
+        .location {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .save-instructions {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 6px;
+        }
+
+        .service-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin: 2px;
+        }
+
+        .privacy-note {
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .notification {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 12px;
+            display: none;
+        }
+
+        .email-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .modal-btn.primary {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .modal-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="business-card">
+        <div class="profile-section">
+            <div class="profile-image" id="profile-img">
+                <img src="http://veloudos.eu/wp-content/uploads/2025/05/VELOUDOS-IOANNIS.jpg" 
+                     alt="Ιωάννης Βελούδος" 
+                     onerror="handleImageError()">
+            </div>
+            <h1 class="name">Ιωάννης Βελούδος</h1>
+            <p class="company">DOUSISCOM GROUP & Executive Communications</p>
+            <p class="title">Media Sales/Planning · PR Consulting · Executive Communications</p>
+            
+            <div class="service-badge">Media Planning</div>
+            <div class="service-badge">PR & Crisis Management</div>
+            <div class="service-badge">Executive Branding</div>
+            
+            <div class="contact-info">
+                <a href="tel:+302106858190" class="contact-btn" title="Κάλεσέ με">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://wa.me/306936984720" class="contact-btn" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="mailto:iveloudos@dousiscom.gr" class="contact-btn" title="Στείλε μου Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="viber://add?number=306936984720" class="contact-btn" title="Viber">
+                    <i class="fab fa-viber"></i>
+                </a>
+            </div>
+
+            <div class="save-contact-section">
+                <button class="save-contact-btn" onclick="saveToContacts()">
+                    <i class="fas fa-address-book"></i>
+                    Αποθήκευση Επαφής
+                </button>
+                <div class="save-instructions">
+                    Αποθηκεύστε τα στοιχεία μου στις επαφές σας
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>210 685 8190</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>693 698 4720</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>iveloudos@dousiscom.gr</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-viber"></i>
+                    <span>693 698 4720 (Viber)</span>
+                </div>
+                <div class="location">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Π. Μπακογιάννη 34, Μεταμόρφωση</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-section">
+            <div class="notification" id="notification">
+                📧 Το μήνυμά σας στάλθηκε! Θα επικοινωνήσουμε μαζί σας εντός 1 ώρας.
+            </div>
+
+            <div class="chat-container" id="chat-container">
+                <div class="message bot">
+                    <div class="message-content">
+                        <strong>Γεια σας! Είμαι ο βοηθός του Ιωάννη Βελούδου.</strong> 🎯<br><br>
+                        Θέλετε προβολή σε <strong>TV/Digital/Print</strong> μέσα από τα μέσα του DOUSISCOM GROUP ή <strong>Στρατηγική Επικοινωνίας & PR</strong> (κρίσεις, media, LinkedIn executives, εσωτερική επικοινωνία);<br><br>
+                        <em>Πείτε μου σε 2–3 προτάσεις τι θέλετε να πετύχετε και σε ποιο κοινό απευθυνόμαστε. Θα σας δώσω γρήγορα ένα πλάνο και—αν θέλετε—κλείνουμε ραντεβού.</em>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                Ο Ιωάννης σας απαντά<span class="typing-dots"></span>
+            </div>
+            
+            <div class="input-container">
+                <input type="text" id="user-input" placeholder="Πείτε μου τι θέλετε να πετύχετε...">
+                <button id="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            
+            <div class="quick-actions">
+                <div class="quick-btn" data-question="Πλάνο προβολής σε TV/Digital/Print">📺 TV/Digital/Print</div>
+                <div class="quick-btn" data-question="Happy Hours / ΕΙΚΟΝΕΣ — τηλεοπτική προβολή">🎬 Happy Hours/ΕΙΚΟΝΕΣ</div>
+                <div class="quick-btn" data-question="Youweekly / Athensmagazine / Travelstyle — Digital & Social">📱 Youweekly/Digital</div>
+                <div class="quick-btn" data-question="Καταχωρήσεις σε TV24 / TiVi Σίριαλ (print)">📰 TV24/TiVi Print</div>
+                <div class="quick-btn" data-question="Στρατηγική Επικοινωνίας (PR/Κρίσεις/LinkedIn/Εσωτερική)">🎯 PR & Στρατηγική</div>
+                <div class="quick-btn" data-question="Κλείσιμο ραντεβού με Ιωάννη">📅 Κλείσιμο Ραντεβού</div>
+            </div>
+
+            <div class="privacy-note">
+                🔒 Τα στοιχεία σας χρησιμοποιούνται μόνο για την προετοιμασία πρότασης και δεν κοινοποιούνται σε τρίτους.
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Modal -->
+    <div class="email-modal" id="emailModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 15px; text-align: center;">📧 Στείλτε μας τα στοιχεία σας</h3>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="userName">Ονοματεπώνυμο *</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email *</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Τηλέφωνο</label>
+                    <input type="tel" id="userPhone">
+                </div>
+                <div class="form-group">
+                    <label for="userMessage">Μήνυμα *</label>
+                    <textarea id="userMessage" required></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn secondary" onclick="closeModal()">Ακύρωση</button>
+                    <button type="submit" class="modal-btn primary">Αποστολή</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let conversationHistory = [];
+        let lastUserMessage = '';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chat-container');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const quickBtns = document.querySelectorAll('.quick-btn');
+            const notification = document.getElementById('notification');
+            const emailModal = document.getElementById('emailModal');
+            const contactForm = document.getElementById('contactForm');
+
+            // Βάση γνώσεων για Media & PR
+            const knowledgeBase = {
+                "default": "Ενδιαφέρον ερώτηση! Για να σας βοηθήσω καλύτερα, πείτε μου: Ποιος είναι ο κύριος στόχος σας (αναγνωρισιμότητα, επισκεψιμότητα, πωλήσεις, φήμη) και σε ποιο κοινό απευθυνόμαστε;",
+                
+                "πλάνο προβολής σε tv/digital/print": "Εξαιρετική επιλογή! 🎯\n\nΓια να σας προτείνω το καλύτερο πλάνο, χρειάζομαι:\n• Στόχος (awareness, traffic, leads, πωλήσεις)\n• Κοινό (ηλικία/φύλο/περιοχή)\n• Περίοδος (1-3 μήνες, 6 μήνες)\n• Budget (εύρος)\n\nΘέλετε να συμπληρώσετε αυτά τα στοιχεία ή να κλείσουμε 20' call για λεπτομέρειες;",
+                
+                "happy hours / εικόνες — τηλεοπτική προβολή": "🎬 Τηλεοπτική Προβολή!\n\n• Happy Hours (Open TV): 45', 8-14 θεματικές, Mάγδα Τσέγκου\n• ΕΙΚΟΝΕΣ (Open TV): Ταξιδιωτική εκπομπή, δυνατό brand recall\n\nFormats: Product Placement (φυσική ένταξη), Pop-Up 8'', Spot 20'', L-Banner\n\nΣτόχος: Γρήγορη αναγνωρισιμότητα & brand recall\n\nΠότε θα ήταν καλή στιγμή για 20' συζήτηση;",
+                
+                "youweekly / athensmagazine / travelstyle — digital & social": "📱 Digital & Social Excellence!\n\n• Youweekly.gr: Γυναικείο lifestyle/beauty/fashion\n• Athensmagazine.gr: Lifestyle/ψυχαγωγία/επικαιρότητα  \n• Travelstyle.gr: Ταξίδι/προορισμοί\n\nΥψηλός μ.ό. παραμονής & engagement. Formats: Video Post Carousel, Native Articles με ενεργά links.\n\nΣτόχος: Clicks & conversions\n\nΣτείλτε μου 3-5 προϊοντικές προτεραιότητες για προσαρμοσμένη πρόταση!",
+                
+                "καταχωρήσεις σε tv24 / tivi σίριαλ (print)": "📰 Print Media με Κύρος!\n\n• TV24 & TiVi Σίριαλ: Περιοδικά με πιστό κοινό & brand authority\n• Ιδανικό για: Brand reminder, credibility boost\n\nΣτόχος: Ενίσχυση φήμης & σταθερή παρουσία\n\nΘέλετε να δείτε δείγματα placement;",
+                
+                "στρατηγική επικοινωνίας (pr/κρίσεις/linkedin/εσωτερική)": "🎯 Στρατηγική Επικοινωνίας!\n\n• PR/Media: Δελτία τύπου, media relations, press events\n• Executive Branding: LinkedIn στρατηγική, ομιλίες, panels\n• Crisis Management: Monitoring, holding statements\n• Εσωτερική Επικοινωνία: Newsletters, town halls\n• ESG/Reputation: CSR alignment, thought leadership\n\nΠοιο aspect σας ενδιαφέρει περισσότερο;",
+                
+                "κλείσιμο ραντεβού με ιωάννη": "📅 Τέλεια! Ας κανονίσουμε ένα 20' call για:\n• Κατανόηση αναγκών & στόχων\n• Προσαρμοσμένη πρόταση Media/PR\n• Επίσημη προσφορά\n\nΜπορείτε να μου πείτε 2-3 διαθέσιμες ώρες τις επόμενες 2 μέρες; Θα σας στείλω email επιβεβαίωσης!\n\n📞 210 685 8190\n📧 iveloudos@dousiscom.gr",
+                
+                "performance digital": "🚀 Performance Digital Package:\n• 1× Video Post Carousel @youweekly.gr + micro-influencer\n• 1× Native article (7 ημέρες Home, μόνιμο link)\n• Στόχος: Engagement + e-shop clicks\n\nΕπόμενο βήμα: Στείλτε 3-5 προϊόντων προτεραιότητες & key offers!",
+                
+                "tv awareness": "📺 TV Awareness Package:\n• Happy Hours ή ΕΙΚΟΝΕΣ: Product Placement ή 2× Pop-Up + 1× Spot\n• Προαιρετικά IG stories από εκπομπές\n• Στόχος: Ευρεία αναγνωρισιμότητα\n\nΙδανικό για γρήγορο brand recall!",
+                
+                "core 90 days": "🎯 PR Core 90 Days:\n• Communication plan + 2 δελτία τύπου\n• LinkedIn content για executive (8-12 posts)\n• Mini crisis playbook\n• Στόχος: Θεμέλιο φήμης & σταθερή παρουσία",
+                
+                "impact 180": "🌟 PR Impact 180 Days:\n• Core package + thought leadership content\n• 2 θεματικά events + media training\n• Εσωτερική καμπάνια engagement\n• Στόχος: Αναβάθμιση εικόνας & αξιοπιστία",
+                
+                "κρίση": "🚨 Crisis Situation - Escalation!\n\nΚαταγράφω: Τι/πότε/πού/ποιοι. Ετοιμάζω holding statement και κλείνω άμεσα 20' call με Ιωάννη για Q&A/ενέργειες 24-72 ωρών.\n\nΠροχωράω;",
+                
+                "γεια": "Γεια σας! Χαίρομαι που σας γνωρίζω! Πώς μπορώ να σας βοηθήσω με Media Planning ή Στρατηγική Επικοινωνίας σήμερα;",
+                
+                "ευχαριστώ": "Παρακαλώ! Χαίρομαι που μπορούσα να βοηθήσω. Αν έχετε άλλες ερωτήσεις ή θέλετε να προχωρήσουμε σε πλάνο, είμαι εδώ! 😊\n\nΜπορείτε επίσης να επικοινωνήσετε απευθείας με τον Ιωάννη στο 210 685 8190."
+            };
+
+            // Image loading functions
+            function handleImageError() {
+                const profileImg = document.querySelector('.profile-image img');
+                profileImg.style.display = 'none';
+                const profileDiv = document.getElementById('profile-img');
+                profileDiv.innerHTML = '<i class="fas fa-user" style="font-size: 40px; color: #1e3c72; margin-top: 35px;"></i>';
+            }
+
+            // Modal functions
+            function openModal() {
+                emailModal.style.display = 'flex';
+                document.getElementById('userMessage').value = lastUserMessage;
+            }
+
+            function closeModal() {
+                emailModal.style.display = 'none';
+                contactForm.reset();
+            }
+
+            function showNotification() {
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+            }
+
+            // Email sending function
+            function sendEmail(userData) {
+                const subject = `Νέο Μήνυμα από Veloudos Assistant: ${userData.name}`;
+                const body = `
+Ονοματεπώνυμο: ${userData.name}
+Email: ${userData.email}
+Τηλέφωνο: ${userData.phone}
+
+Μήνυμα:
+${userData.message}
+
+Στοιχεία Συνομιλίας:
+${conversationHistory.map(msg => `${msg.sender}: ${msg.text}`).join('\n')}
+
+Αποστολή: ${new Date().toLocaleString('el-GR')}
+                `.trim();
+
+                // Open default email client
+                const mailtoLink = `mailto:iveloudos@dousiscom.gr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.open(mailtoLink, '_blank');
+
+                // Also send Viber message (this would need backend integration)
+                sendViberNotification(userData);
+                
+                showNotification();
+                closeModal();
+            }
+
+            // Viber notification (simulated - would need backend)
+            function sendViberNotification(userData) {
+                console.log('Viber Notification:', {
+                    name: userData.name,
+                    phone: userData.phone,
+                    message: userData.message.substring(0, 100) + '...'
+                });
+                
+                // In a real implementation, this would call a backend API
+                // that sends a Viber message to the business number
+            }
+
+            // Αποστολή μηνύματος
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+
+                lastUserMessage = message;
+                
+                // Προσθήκη μηνύματος χρήστη
+                addMessage(message, 'user');
+                conversationHistory.push({ sender: 'User', text: message });
+                userInput.value = '';
+
+                // Προσομοίωση typing
+                showTypingIndicator();
+
+                // Προσομοίωση καθυστέρησης απάντησης AI
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    // Check if this is a serious inquiry that requires follow-up
+                    if (shouldTriggerFollowUp(message)) {
+                        addMessage("Εξαιρετική ερώτηση! Για να σας δώσω την καλύτερη δυνατή απάντηση και προσφορά, μπορείτε να συμπληρώσετε τα στοιχεία σας παρακάτω; Θα σας απαντήσω προσωπικά εντός 1 ώρας! 🚀", 'bot');
+                        setTimeout(() => {
+                            openModal();
+                        }, 1000);
+                    } else {
+                        generateAIResponse(message);
+                    }
+                }, 1500);
+            }
+
+            // Check if message requires follow-up
+            function shouldTriggerFollowUp(message) {
+                const lowerMessage = message.toLowerCase();
+                const triggers = [
+                    'πλάνο', 'προβολή', 'media', 'tv', 'digital', 'print',
+                    'happy hours', 'εικόνες', 'youweekly', 'athensmagazine', 'travelstyle',
+                    'στρατηγική', 'pr', 'κρίση', 'linkedin', 'executive',
+                    'κοστίζει', 'τιμή', 'budget', 'πακέτο', 'προσφορά',
+                    'ραντεβού', 'συνάντηση', 'call', 'κλήση'
+                ];
+                
+                return triggers.some(trigger => lowerMessage.includes(trigger)) && message.length > 10;
+            }
+
+            // Προσθήκη μηνύματος στο chat
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.textContent = text;
+                
+                messageDiv.appendChild(contentDiv);
+                chatContainer.appendChild(messageDiv);
+                
+                // Αυτόματο scroll στο τελευταίο μήνυμα
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Εμφάνιση typing indicator
+            function showTypingIndicator() {
+                typingIndicator.style.display = 'block';
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Απόκρυψη typing indicator
+            function hideTypingIndicator() {
+                typingIndicator.style.display = 'none';
+            }
+
+            // Δημιουργία AI απάντησης
+            function generateAIResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                let response = knowledgeBase.default;
+                
+                // Έλεγχος για keywords
+                for (const [keyword, aiResponse] of Object.entries(knowledgeBase)) {
+                    if (lowerMessage.includes(keyword) && keyword !== "default") {
+                        response = aiResponse;
+                        break;
+                    }
+                    
+                    // Έλεγχος για συνώνυμα και παραλλαγές
+                    const synonyms = {
+                        "πλάνο": ["πλάνο", "προβολή", "media", "μίντια"],
+                        "tv": ["tv", "τηλεόραση", "τηλεοπτική", "happy hours", "εικόνες"],
+                        "digital": ["digital", "ψηφιακή", "youweekly", "athensmagazine", "travelstyle"],
+                        "print": ["print", "έντυπα", "tv24", "tivi", "περιοδικά"],
+                        "pr": ["pr", "public relations", "επικοινωνία", "στρατηγική"],
+                        "κρίση": ["κρίση", "crisis", "πρόβλημα", "άρνηση"],
+                        "ραντεβού": ["ραντεβού", "συνάντηση", "call", "κλήση"]
+                    };
+                    
+                    for (const [key, syns] of Object.entries(synonyms)) {
+                        if (syns.some(syn => lowerMessage.includes(syn))) {
+                            response = knowledgeBase[key] || knowledgeBase.default;
+                            break;
+                        }
+                    }
+                }
+                
+                addMessage(response, 'bot');
+                conversationHistory.push({ sender: 'Bot', text: response });
+            }
+
+            // Συνάρτηση αποθήκευσης επαφής
+            function saveToContacts() {
+                const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN;CHARSET=UTF-8:Ιωάννης Βελούδος
+ORG;CHARSET=UTF-8:DOUSISCOM GROUP & Executive Communications
+TITLE;CHARSET=UTF-8:Media Sales/Planning · PR Consulting · Executive Communications
+TEL;TYPE=WORK,VOICE:2106858190
+TEL;TYPE=CELL,VOICE:6936984720
+TEL;TYPE=CELL,WHATSAPP:6936984720
+TEL;TYPE=CELL,VIBER:6936984720
+EMAIL;TYPE=WORK:iveloudos@dousiscom.gr
+ADR;TYPE=WORK;CHARSET=UTF-8:;;Π. Μπακογιάννη 34;Μεταμόρφωση;;14451;Ελλάδα
+URL:http://veloudos.eu
+NOTE;CHARSET=UTF-8:Media Planning · PR · Executive Communications · Crisis Management
+PHOTO;VALUE=URI;TYPE=JPEG:http://veloudos.eu/wp-content/uploads/2025/05/VELOUDOS-IOANNIS.jpg
+END:VCARD`;
+
+                const blob = new Blob([vCardData], { type: 'text/vcard' });
+                const url = window.URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'Ιωάννης Βελούδος.vcf';
+                
+                document.body.appendChild(a);
+                a.click();
+                
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                addMessage("✅ Τα στοιχεία επικοινωνίας αποθηκεύτηκαν! Ανοίξτε το αρχείο '.vcf' για να προστεθούν στις επαφές σας.", 'bot');
+            }
+
+            // Event listeners
+            sendBtn.addEventListener('click', sendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Contact form submission
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const userData = {
+                    name: document.getElementById('userName').value,
+                    email: document.getElementById('userEmail').value,
+                    phone: document.getElementById('userPhone').value,
+                    message: document.getElementById('userMessage').value
+                };
+
+                sendEmail(userData);
+            });
+
+            // Quick buttons
+            quickBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    userInput.value = question;
+                    sendMessage();
+                });
+            });
+
+            // Close modal when clicking outside
+            emailModal.addEventListener('click', function(e) {
+                if (e.target === emailModal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
